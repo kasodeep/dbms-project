@@ -266,3 +266,108 @@ LEFT JOIN Orders ON Customer.id = Orders.customer_id
 LEFT JOIN Produced ON Orders.identifier = Produced.identifier
 LEFT JOIN Machine ON Produced.machine_id = Machine.id
 GROUP BY Customer.id, Customer.company_name, Machine.identifier;
+
+--Show the Address Details by Entity Type and Entity ID.
+SELECT * FROM Address WHERE entity_type = ? AND entity_id = ?;
+
+--Show the Machines Assigned to Workers Older Than a Specified Age.
+SELECT * FROM Machine WHERE worker_id IN (SELECT id FROM Worker WHERE age > ?);
+
+--Show the Maintenance Records for Machines with Capacities Greater Than a Given Value.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity > ?);
+
+--Show the Produced Items by Worker ID and Production Date Range.
+SELECT * FROM Produced WHERE worker_id = ? AND production_date BETWEEN ? AND ?;
+
+--Show the Orders Placed by Customers with Company Names Starting with a Specific Letter.
+SELECT * FROM Orders WHERE customer_id IN (SELECT id FROM Customer WHERE company_name LIKE ?);
+
+--Show the Material Purchases by Purchase Date and Quantity Range.
+SELECT * FROM Material WHERE purchase_date BETWEEN ? AND ? AND quantity BETWEEN ? AND ?;
+
+--Show the Maintenance Records for Machines with Capacities in a Specified Range.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity BETWEEN ? AND ?);
+
+--Show the Produced Items by Production Date and Quantity Range.
+SELECT * FROM Produced WHERE production_date = ? AND quantity BETWEEN ? AND ?;
+
+--Show the Orders with Payment Status and Amount Range.
+SELECT * FROM Orders WHERE isPaymentDone = ? AND amount BETWEEN ? AND ?;
+
+--Show the Material Purchases by Purchase Date and Rate Range.
+SELECT * FROM Material WHERE purchase_date BETWEEN ? AND ? AND rate BETWEEN ? AND ?;
+
+--Show the Workers by Age and Gender.
+SELECT * FROM Worker WHERE age > ? AND gender = ?;
+
+--Show the Customers by City and Postal Code.
+SELECT * FROM Customer WHERE address_id IN (SELECT address_id FROM Address WHERE city = ? AND postal_code = ?);
+
+--Show the Maintenance Records for Machines with Capacities Greater Than a Given Value and Maintenance Cost in a Specified Range.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity > ?) AND cost BETWEEN ? AND ?;
+
+--Show the Material Purchases by Identifier and Purchase Date Range.
+SELECT * FROM Material WHERE identifier = ? AND purchase_date BETWEEN ? AND ?;
+
+--Show the Produced Items by Worker ID and Quantity Range.
+SELECT * FROM Produced WHERE worker_id = ? AND quantity BETWEEN ? AND ?;
+
+--Show the Machines with Capacities Greater Than or Equal to a Given Value and Assigned to Workers Younger Than a Specified Age.
+SELECT * FROM Machine WHERE capacity >= ? AND worker_id IN (SELECT id FROM Worker WHERE age < ?);
+
+--Show the Maintenance Records for Machines with Capacities Less Than a Given Value and Maintenance Cost in a Specified Range.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity < ?) AND cost BETWEEN ? AND ?;
+
+--Show the Produced Items by Production Date Range and Quantity.
+SELECT * FROM Produced WHERE production_date BETWEEN ? AND ? AND quantity = ?;
+
+--Show the Orders Placed by Customers with a Specific GSTIN.
+SELECT * FROM Orders WHERE customer_id IN (SELECT id FROM Customer WHERE gstin = ?);
+
+--Show the Material Purchases by Identifier and Quantity Range.
+SELECT * FROM Material WHERE identifier = ? AND quantity BETWEEN ? AND ?;
+
+--Show the Workers by Age Range and Address City.
+SELECT * FROM Worker WHERE age BETWEEN ? AND ? AND address_id IN (SELECT address_id FROM Address WHERE city = ?);
+
+--Show the Customers by Company Name and Shipping Address City.
+SELECT * FROM Customer WHERE company_name = ? AND shipping_address_id IN (SELECT address_id FROM Address WHERE city = ?);
+
+--Show the Orders with Payment Status and Amount Greater Than a Specified Value.
+SELECT * FROM Orders WHERE isPaymentDone = ? AND amount > ?;
+
+--Show the Material Purchases by Purchase Date and Identifier.
+SELECT * FROM Material WHERE purchase_date = ? AND identifier = ?;
+
+--Show the Workers by Gender and Postal Code.
+SELECT * FROM Worker WHERE gender = ? AND address_id IN (SELECT address_id FROM Address WHERE postal_code = ?);
+
+--Show the Customers by City and Entity Type.
+SELECT * FROM Customer WHERE address_id IN (SELECT address_id FROM Address WHERE city = ?) AND entity_type = ?;
+
+--Show the Maintenance Records for Machines with Capacities in a Range and Maintenance Date Range.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity BETWEEN ? AND ?) AND maintenance_date BETWEEN ? AND ?;
+
+--Show the Produced Items by Production Date Range and Worker ID.
+SELECT * FROM Produced WHERE production_date BETWEEN ? AND ? AND worker_id = ?;
+
+--Show the Orders by Customer and Order Date Range.
+SELECT * FROM Orders WHERE customer_id = ? AND order_date BETWEEN ? AND ?;
+
+--Show the Workers by Gender and Entity Type.
+SELECT * FROM Worker WHERE gender = ? AND entity_type = ?;
+
+--Show the Maintenance Records for Machines with Capacities in a Range and Maintenance Cost in a Range.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity BETWEEN ? AND ?) AND cost BETWEEN ? AND ?;
+
+--Show the Produced Items by Production Date and Identifier.
+SELECT * FROM Produced WHERE production_date = ? AND identifier = ?;
+
+--Show the Orders by Amount Range and Inventory Type.
+SELECT * FROM Orders WHERE amount BETWEEN ? AND ? AND inventory_type = ?;
+
+--Show the Maintenance Records for Machines with Capacities Less Than or Equal to a Given Value and Maintenance Cost Greater Than a Specified Amount.
+SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capacity <= ?) AND cost > ?;
+
+--Show the Produced Items by Production Date Range and Identifier.
+SELECT * FROM Produced WHERE production_date BETWEEN ? AND ? AND identifier = ?;
