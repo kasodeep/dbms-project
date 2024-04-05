@@ -196,77 +196,6 @@ SELECT customer_id, COUNT(*) AS total_orders
 FROM Orders
 GROUP BY customer_id;
 
--- Show the total quantity of inventory items produced by each worker.
-SELECT Worker.id, Worker.name, SUM(Produced.quantity) AS total_quantity_produced
-FROM Worker
-LEFT JOIN Produced ON Worker.id = Produced.worker_id
-GROUP BY Worker.id, Worker.name;
-
--- Show the total amount of orders placed for each type of identifier.
-SELECT identifier, SUM(amount) AS total_amount
-FROM Orders
-GROUP BY identifier;
-
--- Show the total quantity of material purchases for each month.
-SELECT MONTH(purchase_date) AS month, SUM(quantity) AS total_quantity
-FROM Material
-GROUP BY MONTH(purchase_date);
-
--- Show the total amount of orders placed for each month.
-SELECT MONTH(order_date) AS month, SUM(amount) AS total_amount
-FROM Orders
-GROUP BY MONTH(order_date);
-
--- Show the average rate of maintenance for each machine type.
-SELECT Machine.identifier, AVG(Maintenance.cost) AS average_maintenance_cost
-FROM Machine
-LEFT JOIN Maintenance ON Machine.id = Maintenance.machine_id
-GROUP BY Machine.identifier;
-
--- Show the total quantity of produced items for each worker and machine type.
-SELECT Worker.id, Worker.name, Machine.identifier, SUM(Produced.quantity) AS total_quantity_produced
-FROM Worker
-LEFT JOIN Produced ON Worker.id = Produced.worker_id
-LEFT JOIN Machine ON Produced.machine_id = Machine.id
-GROUP BY Worker.id, Worker.name, Machine.identifier;
-
--- Show the total amount of orders placed for each customer and machine type.
-SELECT Customer.id, Customer.company_name, Machine.identifier, SUM(Orders.amount) AS total_amount
-FROM Customer
-LEFT JOIN Orders ON Customer.id = Orders.customer_id
-LEFT JOIN Inventory ON Orders.identifier = Inventory.identifier
-GROUP BY Customer.id, Customer.company_name, Machine.identifier;
-
--- Show the total quantity of produced items for each customer and worker.
-SELECT Customer.id, Customer.company_name, Worker.name, SUM(Produced.quantity) AS total_quantity_produced
-FROM Customer
-LEFT JOIN Orders ON Customer.id = Orders.customer_id
-LEFT JOIN Produced ON Orders.identifier = Produced.identifier
-LEFT JOIN Worker ON Produced.worker_id = Worker.id
-GROUP BY Customer.id, Customer.company_name, Worker.name;
-
--- Show the total quantity of inventory items for each worker and machine type.
-SELECT Worker.id, Worker.name, Machine.identifier, SUM(Inventory.quantity) AS total_quantity
-FROM Worker
-LEFT JOIN Machine ON Worker.id = Machine.worker_id
-LEFT JOIN Inventory ON Machine.identifier = Inventory.identifier
-GROUP BY Worker.id, Worker.name, Machine.identifier;
-
--- Show the average rate of orders placed for each customer and machine type.
-SELECT Customer.id, Customer.company_name, Machine.identifier, AVG(Orders.amount) AS average_amount
-FROM Customer
-LEFT JOIN Orders ON Customer.id = Orders.customer_id
-LEFT JOIN Inventory ON Orders.identifier = Inventory.identifier
-GROUP BY Customer.id, Customer.company_name, Machine.identifier;
-
--- Show the total quantity of produced items for each customer and machine type.
-SELECT Customer.id, Customer.company_name, Machine.identifier, SUM(Produced.quantity) AS total_quantity_produced
-FROM Customer
-LEFT JOIN Orders ON Customer.id = Orders.customer_id
-LEFT JOIN Produced ON Orders.identifier = Produced.identifier
-LEFT JOIN Machine ON Produced.machine_id = Machine.id
-GROUP BY Customer.id, Customer.company_name, Machine.identifier;
-
 --Show the Address Details by Entity Type and Entity ID.
 SELECT * FROM Address WHERE entity_type = ? AND entity_id = ?;
 
@@ -371,3 +300,74 @@ SELECT * FROM Maintenance WHERE machine_id IN (SELECT id FROM Machine WHERE capa
 
 --Show the Produced Items by Production Date Range and Identifier.
 SELECT * FROM Produced WHERE production_date BETWEEN ? AND ? AND identifier = ?;
+
+-- Show the total quantity of inventory items produced by each worker.
+SELECT Worker.id, Worker.name, SUM(Produced.quantity) AS total_quantity_produced
+FROM Worker
+LEFT JOIN Produced ON Worker.id = Produced.worker_id
+GROUP BY Worker.id, Worker.name;
+
+-- Show the total amount of orders placed for each type of identifier.
+SELECT identifier, SUM(amount) AS total_amount
+FROM Orders
+GROUP BY identifier;
+
+-- Show the total quantity of material purchases for each month.
+SELECT MONTH(purchase_date) AS month, SUM(quantity) AS total_quantity
+FROM Material
+GROUP BY MONTH(purchase_date);
+
+-- Show the total amount of orders placed for each month.
+SELECT MONTH(order_date) AS month, SUM(amount) AS total_amount
+FROM Orders
+GROUP BY MONTH(order_date);
+
+-- Show the average rate of maintenance for each machine type.
+SELECT Machine.identifier, AVG(Maintenance.cost) AS average_maintenance_cost
+FROM Machine
+LEFT JOIN Maintenance ON Machine.id = Maintenance.machine_id
+GROUP BY Machine.identifier;
+
+-- Show the total quantity of produced items for each worker and machine type.
+SELECT Worker.id, Worker.name, Machine.identifier, SUM(Produced.quantity) AS total_quantity_produced
+FROM Worker
+LEFT JOIN Produced ON Worker.id = Produced.worker_id
+LEFT JOIN Machine ON Produced.machine_id = Machine.id
+GROUP BY Worker.id, Worker.name, Machine.identifier;
+
+-- Show the total amount of orders placed for each customer and machine type.
+SELECT Customer.id, Customer.company_name, Machine.identifier, SUM(Orders.amount) AS total_amount
+FROM Customer
+LEFT JOIN Orders ON Customer.id = Orders.customer_id
+LEFT JOIN Inventory ON Orders.identifier = Inventory.identifier
+GROUP BY Customer.id, Customer.company_name, Machine.identifier;
+
+-- Show the total quantity of produced items for each customer and worker.
+SELECT Customer.id, Customer.company_name, Worker.name, SUM(Produced.quantity) AS total_quantity_produced
+FROM Customer
+LEFT JOIN Orders ON Customer.id = Orders.customer_id
+LEFT JOIN Produced ON Orders.identifier = Produced.identifier
+LEFT JOIN Worker ON Produced.worker_id = Worker.id
+GROUP BY Customer.id, Customer.company_name, Worker.name;
+
+-- Show the total quantity of inventory items for each worker and machine type.
+SELECT Worker.id, Worker.name, Machine.identifier, SUM(Inventory.quantity) AS total_quantity
+FROM Worker
+LEFT JOIN Machine ON Worker.id = Machine.worker_id
+LEFT JOIN Inventory ON Machine.identifier = Inventory.identifier
+GROUP BY Worker.id, Worker.name, Machine.identifier;
+
+-- Show the average rate of orders placed for each customer and machine type.
+SELECT Customer.id, Customer.company_name, Machine.identifier, AVG(Orders.amount) AS average_amount
+FROM Customer
+LEFT JOIN Orders ON Customer.id = Orders.customer_id
+LEFT JOIN Inventory ON Orders.identifier = Inventory.identifier
+GROUP BY Customer.id, Customer.company_name, Machine.identifier;
+
+-- Show the total quantity of produced items for each customer and machine type.
+SELECT Customer.id, Customer.company_name, Machine.identifier, SUM(Produced.quantity) AS total_quantity_produced
+FROM Customer
+LEFT JOIN Orders ON Customer.id = Orders.customer_id
+LEFT JOIN Produced ON Orders.identifier = Produced.identifier
+LEFT JOIN Machine ON Produced.machine_id = Machine.id
+GROUP BY Customer.id, Customer.company_name, Machine.identifier;
