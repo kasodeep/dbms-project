@@ -2,8 +2,7 @@ CREATE db texttile_firm;
 
 CREATE TABLE Address (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
-    entity_type ENUM('WORKER', 'CUSTOMER'),
-    entity_id INT,
+    entity_type ENUM('WORKER', 'CUSTOMER'),    
     street VARCHAR(255),
     city VARCHAR(255),    
     postal_code VARCHAR(20)
@@ -66,6 +65,7 @@ CREATE TABLE Orders (
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     isPaymentDone BOOLEAN,
     customer_id INT,
+    quantity INT,
     amount DECIMAL(10,2),
     inventory_type VARCHAR(255),
     FOREIGN KEY (identifier) REFERENCES Inventory(identifier),
