@@ -203,7 +203,7 @@ VALUES
 ('CUSTOMER', '222 Lucknow Lane', 'Lucknow', '226002'),
 ('CUSTOMER', '242 Ahmedabad Street', 'Ahmedabad', '380001'),
 ('CUSTOMER', '262 Kochi Street', 'Kochi', '682001'),
-('CUSTOMER', '282 Agra Street', 'Agra', '282002'),
+('CUSTOMER', '282 Agra Street', 'Agra', '282002');
 
 -- Inserting 25 Indian-style company names
 INSERT INTO Customer (company_name, gstin, address_id)
