@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Address model
+model Address {
+  address_id  Int        @id @default(autoincrement())
+  entity_type EntityType
+  street      String
+  city        String
+  postal_code String
+  Worker      Worker[]
+  Customer    Customer[]
+}
+
+enum EntityType {
+  WORKER
+  CUSTOMER
+}
+
+// Worker model
+model Worker {
+  id         Int        @id @default(autoincrement())
+  age        Int
+  name       String
+  aadharNo   Float
+  gender     String
+  address    Address?   @relation(fields: [address_id], references: [address_id])
+  address_id Int?
+  machines   Machine[]
+  produced   Produced[]
+  salaries   Salary[]
+}
+
+// Machine model
+model Machine {
+  id          Int               @id @default(autoincrement())
+  identifier  MachineIdentifier
+  capacity    Float
+  worker      Worker?           @relation(fields: [worker_id], references: [id])
+  worker_id   Int?
+  maintenance Maintenance[]
+}
+
+enum MachineIdentifier {
+  DESIGN
+  PLAIN
+}
+
+// Maintenance model
+model Maintenance {
+  maintenance_id   Int      @id @default(autoincrement())
+  maintenance_date DateTime @default(now())
+  cost             Float
+  machine          Machine  @relation(fields: [machine_id], references: [id])
+  machine_id       Int
+}
+
+// Produced model
+model Produced {
+  produced_id     Int      @id @default(autoincrement())
+  production_date DateTime @db.Date
+  quantity        Int
+  identifier      String
+  rate            Float
+  worker          Worker?  @relation(fields: [worker_id], references: [id])
+  worker_id       Int?
+}
+
+// Inventory model
+model Inventory {
+  identifier String   @id
+  quantity   Int
+  rate       Float
+  Orders     Orders[]
+}
+
+// Customer model
+model Customer {
+  id           Int      @id @default(autoincrement())
+  company_name String
+  gstin        String
+  address_id   Int
+  orders       Orders[]
+
+  address Address? @relation(fields: [address_id], references: [address_id])
+}
+
+// Orders model
+model Orders {
+  bill_no       String    @id
+  identifier    String
+  order_date    DateTime  @default(now())
+  isPaymentDone Boolean
+  customer      Customer  @relation(fields: [customer_id], references: [id])
+  customer_id   Int
+  quantity      Int
+  amount        Float
+  inventory     Inventory @relation(fields: [identifier], references: [identifier])
+}
+
+// Material model
+model Material {
+  id            Int                @id @default(autoincrement())
+  identifier    MaterialIdentifier
+  purchase_date DateTime           @db.Date
+  rate          Float
+  quantity      Int
+}
+
+enum MaterialIdentifier {
+  COLORED
+  NON_COLORED
+}
+
+// Salary model
+model Salary {
+  month     DateTime
+  worker    Worker   @relation(fields: [worker_id], references: [id])
+  worker_id Int
+  amount    Float
+
+  @@id([month, worker_id])
+}
+
+// Profit model
+model Profit {
+  month                 DateTime @id
+  total_expenses        Float    @default(0)
+  total_income          Float    @default(0)
+  total_salary_expenses Float    @default(0)
+}
