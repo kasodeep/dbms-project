@@ -1,5 +1,3 @@
-CREATE db texttile_firm;
-
 CREATE TABLE Address (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
     entity_type ENUM('WORKER', 'CUSTOMER'),    
@@ -66,8 +64,7 @@ CREATE TABLE Orders (
     isPaymentDone BOOLEAN,
     customer_id INT,
     quantity INT,
-    amount DECIMAL(10,2),
-    inventory_type VARCHAR(255),
+    amount DECIMAL(10,2),    
     FOREIGN KEY (identifier) REFERENCES Inventory(identifier),
     FOREIGN KEY (customer_id) REFERENCES Customer(id)
 );
@@ -78,4 +75,20 @@ CREATE TABLE Material (
     purchase_date DATE,
     rate DECIMAL(10,2),
     quantity INT
+);
+
+-- Trigger based tables.
+CREATE TABLE Salary (
+    month DATE,
+    worker_id INT,
+    amount DECIMAL(10, 2),
+    PRIMARY KEY (month, worker_id),
+    FOREIGN KEY (worker_id) REFERENCES Worker(id)
+);
+
+CREATE TABLE Profit (
+    month DATE PRIMARY KEY,
+    total_expenses DECIMAL(10, 2) DEFAULT 0,
+    total_income DECIMAL(10, 2) DEFAULT 0,
+    total_salary_expenses DECIMAL(10, 2) DEFAULT 0
 );
