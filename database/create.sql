@@ -52,8 +52,7 @@ CREATE TABLE Customer (
     id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(255),
     gstin VARCHAR(20),
-    address_id INT,
-    shipping_address_id INT,
+    address_id INT,    
     FOREIGN KEY (address_id) REFERENCES Address(address_id)   
 );
 
