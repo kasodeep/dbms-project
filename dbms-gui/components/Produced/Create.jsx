@@ -26,8 +26,9 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  identifier: z.enum(['DESIGN', 'PLAIN']),
-  capacity: z.string(),
+  quantity: z.string(),
+  identifier: z.string(),
+  rate: z.string(),
   worker_id: z.string(),
 })
 
@@ -37,15 +38,17 @@ export default function Create() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      identifier: 'DESIGN',
-      capacity: 0,
-      worker_id: 0,
+      quantity: '',
+      identifier: '',
+      rate: '',
+      worker_id: '',
     },
   })
 
   async function onSubmit(data) {
+    data.quantity = parseInt(data.quantity)
+    data.rate = parseFloat(data.rate)
     data.worker_id = parseInt(data.worker_id)
-    data.capacity = parseInt(data.capacity)
 
     const postData = {
       method: 'POST',
@@ -53,17 +56,18 @@ export default function Create() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        quantity: data.quantity,
         identifier: data.identifier,
+        rate: data.rate,
         worker_id: data.worker_id,
-        capacity: data.capacity,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Produced', postData)
     const response = await res.json()
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Created!',
+        title: 'Produced Added!',
       })
     } else {
       toast({
@@ -75,45 +79,48 @@ export default function Create() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mx-auto">
-        {/* type. */}
         <FormField
           control={form.control}
-          name="identifier"
+          name="quantity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="DESIGN">Design</SelectItem>
-                  <SelectItem value="PLAIN">Plain</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* capacity. */}
-        <FormField
-          control={form.control}
-          name="capacity"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Capacity</FormLabel>
+              <FormLabel>Quantity</FormLabel>
               <FormControl>
-                <Input placeholder="123" type="number" {...field} />
+                <Input placeholder="100" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* worker_id */}
+        <FormField
+          control={form.control}
+          name="identifier"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Identifier</FormLabel>
+              <FormControl>
+                <Input placeholder="PLAIN STRIPES" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="rate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Rate</FormLabel>
+              <FormControl>
+                <Input placeholder="10" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="worker_id"
@@ -129,7 +136,7 @@ export default function Create() {
         />
 
         <Button type="submit" className="mt-2">
-          Add Machine
+          Add Produced
         </Button>
       </form>
     </Form>

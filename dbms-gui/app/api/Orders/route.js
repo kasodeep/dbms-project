@@ -15,14 +15,14 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { bill_no, identifier, isPaymentDone, customer_id, quantity, amount } = await req.json()
+      const { bill_no, identifier, isPaymentDone, customer_id, quantity } = await req.json()
       const addOrder = await query({
-         query: "INSERT INTO Orders (bill_no, identifier, isPaymentDone, customer_id, quantity, amount) VALUES (?, ?, ?, ?, ?, ?)",
-         values: [bill_no, identifier, isPaymentDone, customer_id, quantity, amount],
+         query: "INSERT INTO Orders (bill_no, identifier, isPaymentDone, customer_id, quantity) VALUES (?, ?, ?, ?, ?)",
+         values: [bill_no, identifier, isPaymentDone, customer_id, quantity],
       });
 
       const message = addOrder.affectedRows ? "success" : "error";
-      const order = { bill_no, identifier, order_date, isPaymentDone, customer_id, quantity, amount };
+      const order = { bill_no, identifier, isPaymentDone, customer_id, quantity };
       return NextResponse.json({ response: { message, order } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });

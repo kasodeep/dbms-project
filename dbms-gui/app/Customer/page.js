@@ -1,3 +1,5 @@
+import Create from "@/components/Customer/Create"
+import Delete from "@/components/Customer/Delete"
 import {
    Tabs,
    TabsContent,
@@ -17,7 +19,7 @@ export default function Customer() {
          </TabsList>
          <div className="mx-auto">
             <TabsContent value="create">
-               Create
+               <Create />
             </TabsContent>
             <TabsContent value="read">
                Read
@@ -26,7 +28,7 @@ export default function Customer() {
                Update
             </TabsContent>
             <TabsContent value="delete">
-               Delete
+               <Delete />
             </TabsContent>
          </div>
       </Tabs>

@@ -1,3 +1,5 @@
+import Create from "@/components/Address/Create"
+import Delete from "@/components/Address/Delete"
 import {
    Tabs,
    TabsContent,
@@ -17,7 +19,7 @@ export default function Address() {
          </TabsList>
          <div className="mx-auto">
             <TabsContent value="create">
-               Create
+               <Create />
             </TabsContent>
             <TabsContent value="read">
                Read
@@ -26,7 +28,7 @@ export default function Address() {
                Update
             </TabsContent>
             <TabsContent value="delete">
-               Delete
+               <Delete />
             </TabsContent>
          </div>
       </Tabs>

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,9 +27,11 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  identifier: z.enum(['DESIGN', 'PLAIN']),
-  capacity: z.string(),
-  worker_id: z.string(),
+  bill_no: z.string(),
+  identifier: z.string(),
+  isPaymentDone: z.string(),
+  customer_id: z.string(),
+  quantity: z.string(),
 })
 
 export default function Create() {
@@ -37,15 +40,18 @@ export default function Create() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      identifier: 'DESIGN',
-      capacity: 0,
-      worker_id: 0,
+      bill_no: '',
+      identifier: '',
+      isPaymentDone: '',
+      customer_id: '',
+      quantity: '',
     },
   })
 
   async function onSubmit(data) {
-    data.worker_id = parseInt(data.worker_id)
-    data.capacity = parseInt(data.capacity)
+    data.customer_id = parseInt(data.customer_id)
+    data.quantity = parseInt(data.quantity)
+    data.isPaymentDone = data.isPaymentDone === 'true' ? true : false
 
     const postData = {
       method: 'POST',
@@ -53,17 +59,20 @@ export default function Create() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        bill_no: data.bill_no,
         identifier: data.identifier,
-        worker_id: data.worker_id,
-        capacity: data.capacity,
+        isPaymentDone: data.isPaymentDone,
+        customer_id: data.customer_id,
+        quantity: data.quantity,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Orders', postData)
     const response = await res.json()
+    console.log(response)
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Created!',
+        title: 'Order Created!',
       })
     } else {
       toast({
@@ -75,13 +84,44 @@ export default function Create() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mx-auto">
-        {/* type. */}
+        <FormField
+          control={form.control}
+          name="bill_no"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bill No</FormLabel>
+              <FormControl>
+                <Input placeholder="B001" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="identifier"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
+              <FormLabel>Identifier</FormLabel>
+              <FormControl>
+                <Input placeholder="PLAIN STRIPES" {...field} />
+              </FormControl>
+              <FormDescription>
+                The identifier must exist in Inventory.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* type. */}
+        <FormField
+          control={form.control}
+          name="isPaymentDone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payment Done?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -89,8 +129,8 @@ export default function Create() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="DESIGN">Design</SelectItem>
-                  <SelectItem value="PLAIN">Plain</SelectItem>
+                  <SelectItem value="true">Done</SelectItem>
+                  <SelectItem value="false">Pending</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -98,28 +138,12 @@ export default function Create() {
           )}
         />
 
-        {/* capacity. */}
         <FormField
           control={form.control}
-          name="capacity"
+          name="customer_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Capacity</FormLabel>
-              <FormControl>
-                <Input placeholder="123" type="number" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* worker_id */}
-        <FormField
-          control={form.control}
-          name="worker_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Worker ID</FormLabel>
+              <FormLabel>Cusotmer ID</FormLabel>
               <FormControl>
                 <Input placeholder="1" {...field} />
               </FormControl>
@@ -128,8 +152,22 @@ export default function Create() {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="quantity"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Quantity</FormLabel>
+              <FormControl>
+                <Input placeholder="100" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button type="submit" className="mt-2">
-          Add Machine
+          Add Order
         </Button>
       </form>
     </Form>

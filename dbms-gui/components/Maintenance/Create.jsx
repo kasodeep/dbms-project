@@ -26,9 +26,8 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  identifier: z.enum(['DESIGN', 'PLAIN']),
-  capacity: z.string(),
-  worker_id: z.string(),
+  cost: z.string(),
+  machine_id: z.string(),
 })
 
 export default function Create() {
@@ -37,33 +36,30 @@ export default function Create() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      identifier: 'DESIGN',
-      capacity: 0,
-      worker_id: 0,
+      cost: '',
+      machine_id: '',
     },
   })
 
   async function onSubmit(data) {
-    data.worker_id = parseInt(data.worker_id)
-    data.capacity = parseInt(data.capacity)
-
+    data.cost = parseInt(data.cost)
+    data.machine_id = parseInt(data.machine_id)
     const postData = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        identifier: data.identifier,
-        worker_id: data.worker_id,
-        capacity: data.capacity,
+        cost: data.cost,
+        machine_id: data.machine_id,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Maintenance', postData)
     const response = await res.json()
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Created!',
+        title: 'Maintenance Recorded!',
       })
     } else {
       toast({
@@ -75,51 +71,26 @@ export default function Create() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mx-auto">
-        {/* type. */}
         <FormField
           control={form.control}
-          name="identifier"
+          name="cost"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="DESIGN">Design</SelectItem>
-                  <SelectItem value="PLAIN">Plain</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* capacity. */}
-        <FormField
-          control={form.control}
-          name="capacity"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Capacity</FormLabel>
+              <FormLabel>Cost</FormLabel>
               <FormControl>
-                <Input placeholder="123" type="number" {...field} />
+                <Input placeholder="10" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* worker_id */}
         <FormField
           control={form.control}
-          name="worker_id"
+          name="machine_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Worker ID</FormLabel>
+              <FormLabel>Machine ID</FormLabel>
               <FormControl>
                 <Input placeholder="1" {...field} />
               </FormControl>
@@ -129,7 +100,7 @@ export default function Create() {
         />
 
         <Button type="submit" className="mt-2">
-          Add Machine
+          Add Maintenance
         </Button>
       </form>
     </Form>

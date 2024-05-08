@@ -26,9 +26,9 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  identifier: z.enum(['DESIGN', 'PLAIN']),
-  capacity: z.string(),
-  worker_id: z.string(),
+  identifier: z.enum(['COLORED', 'NON_COLORED']),
+  rate: z.string(),
+  quantity: z.string(),
 })
 
 export default function Create() {
@@ -37,15 +37,15 @@ export default function Create() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      identifier: 'DESIGN',
-      capacity: 0,
-      worker_id: 0,
+      identifier: 'COLORED',
+      rate: '',
+      quantity: '',
     },
   })
 
   async function onSubmit(data) {
-    data.worker_id = parseInt(data.worker_id)
-    data.capacity = parseInt(data.capacity)
+    data.rate = parseFloat(data.rate)
+    data.quantity = parseInt(data.quantity)
 
     const postData = {
       method: 'POST',
@@ -54,16 +54,16 @@ export default function Create() {
       },
       body: JSON.stringify({
         identifier: data.identifier,
-        worker_id: data.worker_id,
-        capacity: data.capacity,
+        rate: data.rate,
+        quantity: data.quantity,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Material', postData)
     const response = await res.json()
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Created!',
+        title: 'Material Added!',
       })
     } else {
       toast({
@@ -89,8 +89,8 @@ export default function Create() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="DESIGN">Design</SelectItem>
-                  <SelectItem value="PLAIN">Plain</SelectItem>
+                  <SelectItem value="COLORED">Color</SelectItem>
+                  <SelectItem value="NON_COLORED">Non Color</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -98,30 +98,28 @@ export default function Create() {
           )}
         />
 
-        {/* capacity. */}
         <FormField
           control={form.control}
-          name="capacity"
+          name="rate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Capacity</FormLabel>
+              <FormLabel>Rate</FormLabel>
               <FormControl>
-                <Input placeholder="123" type="number" {...field} />
+                <Input placeholder="100" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* worker_id */}
         <FormField
           control={form.control}
-          name="worker_id"
+          name="quantity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Worker ID</FormLabel>
+              <FormLabel>Quantity</FormLabel>
               <FormControl>
-                <Input placeholder="1" {...field} />
+                <Input placeholder="100" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,7 +127,7 @@ export default function Create() {
         />
 
         <Button type="submit" className="mt-2">
-          Add Machine
+          Add Material
         </Button>
       </form>
     </Form>

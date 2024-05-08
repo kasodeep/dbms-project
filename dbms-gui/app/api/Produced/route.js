@@ -24,7 +24,7 @@ export async function POST(req, res) {
       const producedId = addProduced.insertId;
       const message = producedId ? "success" : "error";
 
-      const producedRecord = { produced_id: producedId, production_date, quantity, identifier, rate, worker_id };
+      const producedRecord = { produced_id: producedId, quantity, identifier, rate, worker_id };
       return NextResponse.json({ response: { message, producedRecord } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });

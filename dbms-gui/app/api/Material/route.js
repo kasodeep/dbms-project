@@ -18,13 +18,13 @@ export async function POST(req, res) {
       const { identifier, purchase_date, rate, quantity } = await req.json()
       const addMaterial = await query({
          query: "INSERT INTO Material (identifier, rate, quantity) VALUES (?, ?, ?)",
-         values: [identifier, purchase_date, rate, quantity],
+         values: [identifier, rate, quantity],
       });
 
       const materialId = addMaterial.insertId;
       const message = materialId ? "success" : "error";
 
-      const material = { id: materialId, identifier, purchase_date, rate, quantity };
+      const material = { id: materialId, identifier, rate, quantity };
       return NextResponse.json({ response: { message, material } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });

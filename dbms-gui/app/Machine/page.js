@@ -1,4 +1,5 @@
 import Create from "@/components/Machine/Create"
+import Delete from "@/components/Machine/Delete"
 import {
    Tabs,
    TabsContent,
@@ -27,7 +28,7 @@ export default function Machine() {
                Update
             </TabsContent>
             <TabsContent value="delete">
-               Delete
+               <Delete />
             </TabsContent>
          </div>
       </Tabs>

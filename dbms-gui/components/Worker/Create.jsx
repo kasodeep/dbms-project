@@ -26,9 +26,11 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  identifier: z.enum(['DESIGN', 'PLAIN']),
-  capacity: z.string(),
-  worker_id: z.string(),
+  gender: z.enum(['M', 'F']),
+  name: z.string(),
+  age: z.string(),
+  aadharNo: z.string(),
+  address_id: z.string(),
 })
 
 export default function Create() {
@@ -37,15 +39,18 @@ export default function Create() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      identifier: 'DESIGN',
-      capacity: 0,
-      worker_id: 0,
+      gender: 'M',
+      name: '',
+      age: '',
+      aadharNo: '',
+      address_id: '',
     },
   })
 
   async function onSubmit(data) {
-    data.worker_id = parseInt(data.worker_id)
-    data.capacity = parseInt(data.capacity)
+    data.age = parseInt(data.age)
+    data.aadharNo = parseInt(data.aadharNo)
+    data.address_id = parseInt(data.address_id)
 
     const postData = {
       method: 'POST',
@@ -53,17 +58,19 @@ export default function Create() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        identifier: data.identifier,
-        worker_id: data.worker_id,
-        capacity: data.capacity,
+        gender: data.gender,
+        name: data.name,
+        age: data.age,
+        aadharNo: data.aadharNo,
+        address_id: data.address_id,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Worker', postData)
     const response = await res.json()
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Created!',
+        title: 'Worker Created!',
       })
     } else {
       toast({
@@ -75,13 +82,40 @@ export default function Create() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mx-auto">
-        {/* type. */}
         <FormField
           control={form.control}
-          name="identifier"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Kumar" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Age</FormLabel>
+              <FormControl>
+                <Input placeholder="12" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Gender</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -89,8 +123,8 @@ export default function Create() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="DESIGN">Design</SelectItem>
-                  <SelectItem value="PLAIN">Plain</SelectItem>
+                  <SelectItem value="M">Male</SelectItem>
+                  <SelectItem value="F">Female</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -98,28 +132,26 @@ export default function Create() {
           )}
         />
 
-        {/* capacity. */}
         <FormField
           control={form.control}
-          name="capacity"
+          name="aadharNo"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Capacity</FormLabel>
+              <FormLabel>Aadhar No</FormLabel>
               <FormControl>
-                <Input placeholder="123" type="number" {...field} />
+                <Input placeholder="203430404359" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* worker_id */}
         <FormField
           control={form.control}
-          name="worker_id"
+          name="address_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Worker ID</FormLabel>
+              <FormLabel>Address ID</FormLabel>
               <FormControl>
                 <Input placeholder="1" {...field} />
               </FormControl>
@@ -129,7 +161,7 @@ export default function Create() {
         />
 
         <Button type="submit" className="mt-2">
-          Add Machine
+          Add Worker
         </Button>
       </form>
     </Form>

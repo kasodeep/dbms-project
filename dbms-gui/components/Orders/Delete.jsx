@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  machineId: z.string(),
+  bill_no: z.string(),
 })
 
 export default function Delete() {
@@ -27,28 +27,26 @@ export default function Delete() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      machineId: '',
+      bill_no: '',
     },
   })
 
   async function onSubmit(data) {
-    data.machineId = parseInt(data.machineId)
-
     const postData = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        machineId: data.machineId,
+        bill_no: data.bill_no,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Orders', postData)
     const response = await res.json()
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Deleted!',
+        title: 'Order Deleted!',
       })
     } else {
       toast({
@@ -63,10 +61,10 @@ export default function Delete() {
         {/* worker_id */}
         <FormField
           control={form.control}
-          name="machineId"
+          name="bill_no"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Machine ID</FormLabel>
+              <FormLabel>Bill No</FormLabel>
               <FormControl>
                 <Input placeholder="1" {...field} />
               </FormControl>
@@ -76,7 +74,7 @@ export default function Delete() {
         />
 
         <Button type="submit" className="mt-2">
-          Delete Machine
+          Delete Order
         </Button>
       </form>
     </Form>

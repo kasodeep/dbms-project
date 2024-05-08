@@ -26,9 +26,10 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 const FormSchema = z.object({
-  identifier: z.enum(['DESIGN', 'PLAIN']),
-  capacity: z.string(),
-  worker_id: z.string(),
+  entity_type: z.enum(['WORKER', 'CUSTOMER']),
+  street: z.string(),
+  city: z.string(),
+  postal_code: z.string(),
 })
 
 export default function Create() {
@@ -37,33 +38,32 @@ export default function Create() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      identifier: 'DESIGN',
-      capacity: 0,
-      worker_id: 0,
+      entity_type: 'WORKER',
+      street: '',
+      city: '',
+      postal_code: '',
     },
   })
 
   async function onSubmit(data) {
-    data.worker_id = parseInt(data.worker_id)
-    data.capacity = parseInt(data.capacity)
-
     const postData = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        identifier: data.identifier,
-        worker_id: data.worker_id,
-        capacity: data.capacity,
+        entity_type: data.entity_type,
+        street: data.street,
+        city: data.city,
+        postal_code: data.postal_code,
       }),
     }
 
-    const res = await fetch('http://localhost:3000/api/Machine', postData)
+    const res = await fetch('http://localhost:3000/api/Address', postData)
     const response = await res.json()
     if (response.response.message === 'success') {
       toast({
-        title: 'Machine Created!',
+        title: 'Address Created!',
       })
     } else {
       toast({
@@ -78,7 +78,7 @@ export default function Create() {
         {/* type. */}
         <FormField
           control={form.control}
-          name="identifier"
+          name="entity_type"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Type</FormLabel>
@@ -89,8 +89,8 @@ export default function Create() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="DESIGN">Design</SelectItem>
-                  <SelectItem value="PLAIN">Plain</SelectItem>
+                  <SelectItem value="WORKER">Worker</SelectItem>
+                  <SelectItem value="CUSTOMER">Customer</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -98,30 +98,42 @@ export default function Create() {
           )}
         />
 
-        {/* capacity. */}
         <FormField
           control={form.control}
-          name="capacity"
+          name="street"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Capacity</FormLabel>
+              <FormLabel>Street</FormLabel>
               <FormControl>
-                <Input placeholder="123" type="number" {...field} />
+                <Input placeholder="Walk Street" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* worker_id */}
         <FormField
           control={form.control}
-          name="worker_id"
+          name="city"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Worker ID</FormLabel>
+              <FormLabel>City</FormLabel>
               <FormControl>
-                <Input placeholder="1" {...field} />
+                <Input placeholder="Mumbai" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="postal_code"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Postal Code</FormLabel>
+              <FormControl>
+                <Input placeholder="400005" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,7 +141,7 @@ export default function Create() {
         />
 
         <Button type="submit" className="mt-2">
-          Add Machine
+          Add Address
         </Button>
       </form>
     </Form>
