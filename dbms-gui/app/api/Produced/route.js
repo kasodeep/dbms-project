@@ -15,7 +15,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { quantity, identifier, rate, worker_id } = req.body;
+      const { quantity, identifier, rate, worker_id } = await req.json()
       const addProduced = await query({
          query: "INSERT INTO Produced (quantity, identifier, rate, worker_id) VALUES (?, ?, ?, ?)",
          values: [quantity, identifier, rate, worker_id],
@@ -33,7 +33,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { produced_id, production_date, quantity, identifier, rate, worker_id } = req.body;
+      const { produced_id, production_date, quantity, identifier, rate, worker_id } = await req.json()
       const updateProduced = await query({
          query: "UPDATE Produced SET production_date = ?, quantity = ?, identifier = ?, rate = ?, worker_id = ? WHERE produced_id = ?",
          values: [production_date, quantity, identifier, rate, worker_id, produced_id],
@@ -51,7 +51,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const producedId = req.body.produced_id;
+      const { producedId } = await req.json()
       const deleteProduced = await query({
          query: "DELETE FROM Produced WHERE produced_id = ?",
          values: [producedId],

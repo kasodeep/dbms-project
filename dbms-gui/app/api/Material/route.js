@@ -15,7 +15,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { identifier, purchase_date, rate, quantity } = req.body;
+      const { identifier, purchase_date, rate, quantity } = await req.json()
       const addMaterial = await query({
          query: "INSERT INTO Material (identifier, rate, quantity) VALUES (?, ?, ?)",
          values: [identifier, purchase_date, rate, quantity],
@@ -33,7 +33,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { id, identifier, purchase_date, rate, quantity } = req.body;
+      const { id, identifier, purchase_date, rate, quantity } = await req.json()
       const updateMaterial = await query({
          query: "UPDATE Material SET identifier = ?, purchase_date = ?, rate = ?, quantity = ? WHERE id = ?",
          values: [identifier, purchase_date, rate, quantity, id],
@@ -51,7 +51,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const materialId = req.body.id;
+      const { materialId } = await req.json()
       const deleteMaterial = await query({
          query: "DELETE FROM Material WHERE id = ?",
          values: [materialId],

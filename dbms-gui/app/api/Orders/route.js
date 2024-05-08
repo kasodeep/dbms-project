@@ -15,7 +15,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { bill_no, identifier, isPaymentDone, customer_id, quantity, amount } = req.body;
+      const { bill_no, identifier, isPaymentDone, customer_id, quantity, amount } = await req.json()
       const addOrder = await query({
          query: "INSERT INTO Orders (bill_no, identifier, isPaymentDone, customer_id, quantity, amount) VALUES (?, ?, ?, ?, ?, ?)",
          values: [bill_no, identifier, isPaymentDone, customer_id, quantity, amount],
@@ -31,7 +31,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { bill_no, identifier, isPaymentDone, customer_id, quantity, amount } = req.body;
+      const { bill_no, identifier, isPaymentDone, customer_id, quantity, amount } = await req.json()
       const updateOrder = await query({
          query: "UPDATE Orders SET identifier = ?, isPaymentDone = ?, customer_id = ?, quantity = ?, amount = ? WHERE bill_no = ?",
          values: [identifier, isPaymentDone, customer_id, quantity, amount, bill_no],
@@ -47,7 +47,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const bill_no = req.body.bill_no;
+      const { bill_no } = await req.json()
       const deleteOrder = await query({
          query: "DELETE FROM Orders WHERE bill_no = ?",
          values: [bill_no],

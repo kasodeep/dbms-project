@@ -5,7 +5,7 @@ import {
    TabsTrigger,
 } from "@/components/ui/tabs"
 
-export default function Worker() {
+export default function Orders() {
 
    return (
       <Tabs defaultValue="create" className="w-[700px] mx-auto border-2 shadow-lg shadow-gray-700 rounded-md">

@@ -16,7 +16,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { entity_type, street, city, postal_code } = req.body;
+      const { entity_type, street, city, postal_code } = await req.json()
       const addAddress = await query({
          query: "INSERT INTO Address (entity_type, street, city, postal_code) VALUES (?, ?, ?, ?)",
          values: [entity_type, street, city, postal_code],
@@ -34,7 +34,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { addressId, entity_type, street, city, postal_code } = req.body;
+      const { addressId, entity_type, street, city, postal_code } = await req.json()
       const updateAddress = await query({
          query: "UPDATE Address SET entity_type = ?, street = ?, city = ?, postal_code = ? WHERE address_id = ?",
          values: [entity_type, street, city, postal_code, addressId],
@@ -52,7 +52,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const addressId = req.body.address_id;
+      const { addressId } = await req.json()
       const deleteAddress = await query({
          query: "DELETE FROM Address WHERE address_id = ?",
          values: [addressId],

@@ -15,7 +15,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { identifier, quantity, rate } = req.body;
+      const { identifier, quantity, rate } = await req.json()
       const addInventoryItem = await query({
          query: "INSERT INTO Inventory (identifier, quantity, rate) VALUES (?, ?, ?)",
          values: [identifier, quantity, rate],
@@ -31,7 +31,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { identifier, quantity, rate } = req.body;
+      const { identifier, quantity, rate } = await req.json()
       const updateInventoryItem = await query({
          query: "UPDATE Inventory SET quantity = ?, rate = ? WHERE identifier = ?",
          values: [quantity, rate, identifier],
@@ -47,7 +47,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const identifier = req.body.identifier;
+      const { identifier } = await req.json()
       const deleteInventoryItem = await query({
          query: "DELETE FROM Inventory WHERE identifier = ?",
          values: [identifier],

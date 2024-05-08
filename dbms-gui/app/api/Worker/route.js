@@ -16,7 +16,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { age, name, aadharNo, gender, address_id } = req.body;
+      const { age, name, aadharNo, gender, address_id } = await req.json()
       const addWorker = await query({
          query: "INSERT INTO Worker (age, name, aadharNo, gender, address_id) VALUES (?, ?, ?, ?, ?)",
          values: [age, name, aadharNo, gender, address_id],
@@ -34,7 +34,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { id, age, name, aadharNo, gender, address_id } = req.body;
+      const { id, age, name, aadharNo, gender, address_id } = await req.json()
       const updateWorker = await query({
          query: "UPDATE Worker SET age = ?, name = ?, aadharNo = ?, gender = ?, address_id = ? WHERE id = ?",
          values: [age, name, aadharNo, gender, address_id, id],
@@ -52,7 +52,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const workerId = req.body.id;
+      const { workerId } = await req.json()
       const deleteWorker = await query({
          query: "DELETE FROM Worker WHERE id = ?",
          values: [workerId],

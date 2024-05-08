@@ -16,7 +16,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { maintenance_date, cost, machine_id } = req.body;
+      const { maintenance_date, cost, machine_id } = await req.json()
       const addMaintenance = await query({
          query: "INSERT INTO Maintenance (cost, machine_id) VALUES (?, ?)",
          values: [cost, machine_id],
@@ -34,7 +34,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { maintenanceId, maintenance_date, cost, machine_id } = req.body;
+      const { maintenanceId, maintenance_date, cost, machine_id } = await req.json()
       const updateMaintenance = await query({
          query: "UPDATE Maintenance SET maintenance_date = ?, cost = ?, machine_id = ? WHERE maintenance_id = ?",
          values: [maintenance_date, cost, machine_id, maintenanceId],
@@ -52,7 +52,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const maintenanceId = req.body.maintenance_id;
+      const { maintenanceId } = await req.json()
       const deleteMaintenance = await query({
          query: "DELETE FROM Maintenance WHERE maintenance_id = ?",
          values: [maintenanceId],

@@ -15,7 +15,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { company_name, gstin, address_id } = req.body;
+      const { company_name, gstin, address_id } = await req.json()
       const addCustomer = await query({
          query: "INSERT INTO Customer (company_name, gstin, address_id) VALUES (?, ?, ?)",
          values: [company_name, gstin, address_id],
@@ -33,7 +33,7 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { id, company_name, gstin, address_id } = req.body;
+      const { id, company_name, gstin, address_id } = await req.json()
       const updateCustomer = await query({
          query: "UPDATE Customer SET company_name = ?, gstin = ?, address_id = ? WHERE id = ?",
          values: [company_name, gstin, address_id, id],
@@ -51,7 +51,7 @@ export async function PUT(req, res) {
 
 export async function DELETE(req, res) {
    try {
-      const customerId = req.body.id;
+      const { customerId } = await req.json()
       const deleteCustomer = await query({
          query: "DELETE FROM Customer WHERE id = ?",
          values: [customerId],
