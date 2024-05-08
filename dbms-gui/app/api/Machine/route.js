@@ -7,9 +7,9 @@ export async function GET(req, res) {
          query: "SELECT * FROM Machine",
          values: [],
       });
-      return NextResponse.json({ machines });
+      return NextResponse.json({ response: { message: "success", machines } });
    } catch (error) {
-      return NextResponse.json({ message: "error", error: error.message });
+      return NextResponse.json({ response: { message: "error", error: error.message } });
    }
 }
 
@@ -27,7 +27,7 @@ export async function POST(req, res) {
       const machine = { id: machineId, identifier, capacity, worker_id };
       return NextResponse.json({ response: { message, machine } });
    } catch (error) {
-      return NextResponse.json({ message: "error", error: error.message });
+      return NextResponse.json({ response: { message: "error", error: error.message } });
    }
 }
 
@@ -45,7 +45,7 @@ export async function PUT(req, res) {
       const machine = { id: machineId, identifier, capacity, worker_id };
       return NextResponse.json({ response: { message, machine } });
    } catch (error) {
-      return NextResponse.json({ message: "error", error: error.message });
+      return NextResponse.json({ response: { message: "error", error: error.message } });
    }
 }
 
@@ -61,6 +61,6 @@ export async function DELETE(req, res) {
       const message = result ? "success" : "error";
       return NextResponse.json({ response: { message, machineId } });
    } catch (error) {
-      return NextResponse.json({ message: "error", error: error.message });
+      return NextResponse.json({ response: { message: "error", error: error.message } });
    }
 }

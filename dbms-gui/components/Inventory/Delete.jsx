@@ -44,7 +44,7 @@ export default function Delete() {
 
     const res = await fetch('http://localhost:3000/api/Inventory', postData)
     const response = await res.json()
-    if (response.response.message === 'success') {
+    if (response.response.message !== 'error') {
       toast({
         title: 'Inventory Deleted!',
       })

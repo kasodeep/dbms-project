@@ -1,4 +1,5 @@
 import Delete from "@/components/Inventory/Delete"
+import Helper from "@/components/Inventory/Helper"
 import {
    Tabs,
    TabsContent,
@@ -20,7 +21,7 @@ export default function Inventory() {
                Read
             </TabsContent>
             <TabsContent value="update">
-               Update
+               <Helper />
             </TabsContent>
             <TabsContent value="delete">
                <Delete />

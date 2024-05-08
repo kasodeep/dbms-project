@@ -61,7 +61,7 @@ export default function Create() {
 
     const res = await fetch('http://localhost:3000/api/Address', postData)
     const response = await res.json()
-    if (response.response.message === 'success') {
+    if (response.response.message !== 'error') {
       toast({
         title: 'Address Created!',
       })

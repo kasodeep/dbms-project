@@ -1,5 +1,6 @@
 import Create from "@/components/Customer/Create"
 import Delete from "@/components/Customer/Delete"
+import Helper from "@/components/Customer/Helper"
 import {
    Tabs,
    TabsContent,
@@ -25,7 +26,7 @@ export default function Customer() {
                Read
             </TabsContent>
             <TabsContent value="update">
-               Update
+               <Helper />
             </TabsContent>
             <TabsContent value="delete">
                <Delete />

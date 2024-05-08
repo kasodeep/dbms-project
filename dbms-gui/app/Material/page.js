@@ -1,5 +1,6 @@
 import Create from "@/components/Material/Create"
 import Delete from "@/components/Material/Delete"
+import Helper from "@/components/Material/Helper"
 import {
    Tabs,
    TabsContent,
@@ -25,7 +26,7 @@ export default function Material() {
                Read
             </TabsContent>
             <TabsContent value="update">
-               Update
+               <Helper />
             </TabsContent>
             <TabsContent value="delete">
                <Delete />

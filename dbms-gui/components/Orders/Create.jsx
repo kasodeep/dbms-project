@@ -70,7 +70,7 @@ export default function Create() {
     const res = await fetch('http://localhost:3000/api/Orders', postData)
     const response = await res.json()
     console.log(response)
-    if (response.response.message === 'success') {
+    if (response.response.message !== 'error') {
       toast({
         title: 'Order Created!',
       })

@@ -1,5 +1,6 @@
 import Create from "@/components/Orders/Create"
 import Delete from "@/components/Orders/Delete"
+import Helper from "@/components/Orders/Helper"
 import {
    Tabs,
    TabsContent,
@@ -25,7 +26,7 @@ export default function Orders() {
                Read
             </TabsContent>
             <TabsContent value="update">
-               Update
+               <Helper />
             </TabsContent>
             <TabsContent value="delete">
                <Delete />

@@ -34,16 +34,16 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { maintenanceId, maintenance_date, cost, machine_id } = await req.json()
+      const { maintenanceId, cost, machine_id } = await req.json()
       const updateMaintenance = await query({
-         query: "UPDATE Maintenance SET maintenance_date = ?, cost = ?, machine_id = ? WHERE maintenance_id = ?",
-         values: [maintenance_date, cost, machine_id, maintenanceId],
+         query: "UPDATE Maintenance SET cost = ?, machine_id = ? WHERE maintenance_id = ?",
+         values: [cost, machine_id, maintenanceId],
       });
 
       const result = updateMaintenance.affectedRows;
       const message = result ? "success" : "error";
 
-      const maintenanceRecord = { maintenance_id: maintenanceId, maintenance_date, cost, machine_id };
+      const maintenanceRecord = { maintenance_id: maintenanceId, cost, machine_id };
       return NextResponse.json({ response: { message, maintenanceRecord } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });

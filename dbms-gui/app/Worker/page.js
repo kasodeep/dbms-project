@@ -1,5 +1,6 @@
 import Create from "@/components/Worker/Create"
 import Delete from "@/components/Worker/Delete"
+import Helper from "@/components/Worker/Helper"
 import {
    Tabs,
    TabsContent,
@@ -25,7 +26,7 @@ export default function Worker() {
                Read
             </TabsContent>
             <TabsContent value="update">
-               Update
+               <Helper />
             </TabsContent>
             <TabsContent value="delete">
                <Delete />

@@ -33,16 +33,16 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { produced_id, production_date, quantity, identifier, rate, worker_id } = await req.json()
+      const { produced_id, quantity, identifier, rate, worker_id } = await req.json()
       const updateProduced = await query({
-         query: "UPDATE Produced SET production_date = ?, quantity = ?, identifier = ?, rate = ?, worker_id = ? WHERE produced_id = ?",
-         values: [production_date, quantity, identifier, rate, worker_id, produced_id],
+         query: "UPDATE Produced SET  quantity = ?, identifier = ?, rate = ?, worker_id = ? WHERE produced_id = ?",
+         values: [quantity, identifier, rate, worker_id, produced_id],
       });
 
       const result = updateProduced.affectedRows;
       const message = result ? "success" : "error";
 
-      const producedRecord = { produced_id, production_date, quantity, identifier, rate, worker_id };
+      const producedRecord = { produced_id, quantity, identifier, rate, worker_id };
       return NextResponse.json({ response: { message, producedRecord } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });

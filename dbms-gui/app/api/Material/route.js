@@ -15,7 +15,7 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
    try {
-      const { identifier, purchase_date, rate, quantity } = await req.json()
+      const { identifier, rate, quantity } = await req.json()
       const addMaterial = await query({
          query: "INSERT INTO Material (identifier, rate, quantity) VALUES (?, ?, ?)",
          values: [identifier, rate, quantity],
@@ -33,16 +33,16 @@ export async function POST(req, res) {
 
 export async function PUT(req, res) {
    try {
-      const { id, identifier, purchase_date, rate, quantity } = await req.json()
+      const { id, identifier, rate, quantity } = await req.json()
       const updateMaterial = await query({
-         query: "UPDATE Material SET identifier = ?, purchase_date = ?, rate = ?, quantity = ? WHERE id = ?",
-         values: [identifier, purchase_date, rate, quantity, id],
+         query: "UPDATE Material SET identifier = ?, rate = ?, quantity = ? WHERE id = ?",
+         values: [identifier, rate, quantity, id],
       });
 
       const result = updateMaterial.affectedRows;
       const message = result ? "success" : "error";
 
-      const material = { id, identifier, purchase_date, rate, quantity };
+      const material = { id, identifier, rate, quantity };
       return NextResponse.json({ response: { message, material } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });

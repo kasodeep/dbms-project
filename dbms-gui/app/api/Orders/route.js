@@ -38,7 +38,7 @@ export async function PUT(req, res) {
       });
 
       const message = updateOrder.affectedRows ? "success" : "error";
-      const order = { bill_no, identifier, order_date, isPaymentDone, customer_id, quantity, amount };
+      const order = { bill_no, identifier, isPaymentDone, customer_id, quantity, amount };
       return NextResponse.json({ response: { message, order } });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });
