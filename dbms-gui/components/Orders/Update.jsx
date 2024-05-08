@@ -41,12 +41,12 @@ export default function Update({ order }) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      bill_no: order[0].bill_no,
-      identifier: order[0].identifier,
-      isPaymentDone: order[0].isPaymentDone === true ? 'true' : 'false',
-      customer_id: String(order[0].customer_id),
-      quantity: String(order[0].quantity),
-      amount: String(order[0].amount),
+      bill_no: order[0]?.bill_no,
+      identifier: order[0]?.identifier,
+      isPaymentDone: order[0]?.isPaymentDone === true ? 'true' : 'false',
+      customer_id: String(order[0]?.customer_id),
+      quantity: String(order[0]?.quantity),
+      amount: String(order[0]?.amount),
     },
   })
 

@@ -42,7 +42,7 @@ const Helper = () => {
     fetchData()
   }, [])
 
-  return order ? (
+  return order !== null ? (
     <Update order={order} />
   ) : (
     <span className="text-xl text-red-600 w-full mx-auto">
