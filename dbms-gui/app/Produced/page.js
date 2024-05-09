@@ -1,6 +1,7 @@
 import Create from "@/components/Produced/Create"
 import Delete from "@/components/Produced/Delete"
 import Helper from "@/components/Produced/Helper"
+import Read from "@/components/Produced/Read"
 import {
    Tabs,
    TabsContent,
@@ -23,7 +24,7 @@ export default function Produced() {
                <Create />
             </TabsContent>
             <TabsContent value="read">
-               Read
+               <Read />
             </TabsContent>
             <TabsContent value="update">
                <Helper />

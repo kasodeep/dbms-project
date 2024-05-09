@@ -1,5 +1,6 @@
 import Delete from "@/components/Inventory/Delete"
 import Helper from "@/components/Inventory/Helper"
+import Read from "@/components/Inventory/Read"
 import {
    Tabs,
    TabsContent,
@@ -18,7 +19,7 @@ export default function Inventory() {
          </TabsList>
          <div className="mx-auto">
             <TabsContent value="read">
-               Read
+               <Read />
             </TabsContent>
             <TabsContent value="update">
                <Helper />

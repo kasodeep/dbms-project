@@ -1,3 +1,4 @@
+import Read from "@/components/Material/Read"
 import Create from "@/components/Material/Create"
 import Delete from "@/components/Material/Delete"
 import Helper from "@/components/Material/Helper"
@@ -23,7 +24,7 @@ export default function Material() {
                <Create />
             </TabsContent>
             <TabsContent value="read">
-               Read
+               <Read />
             </TabsContent>
             <TabsContent value="update">
                <Helper />

@@ -1,6 +1,7 @@
 import Create from "@/components/Maintenance/Create"
 import Delete from "@/components/Maintenance/Delete"
 import Helper from "@/components/Maintenance/Helper"
+import Read from "@/components/Maintenance/Read"
 import {
    Tabs,
    TabsContent,
@@ -23,7 +24,7 @@ export default function Maintenance() {
                <Create />
             </TabsContent>
             <TabsContent value="read">
-               Read
+               <Read />
             </TabsContent>
             <TabsContent value="update">
                <Helper />

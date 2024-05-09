@@ -1,6 +1,7 @@
 import Create from "@/components/Machine/Create"
 import Delete from "@/components/Machine/Delete"
 import Helper from "@/components/Machine/Helper"
+import Read from "@/components/Machine/Read"
 import {
    Tabs,
    TabsContent,
@@ -23,7 +24,7 @@ export default function Machine() {
                <Create />
             </TabsContent>
             <TabsContent value="read">
-               Read
+               <Read />
             </TabsContent>
             <TabsContent value="update">
                <Helper />

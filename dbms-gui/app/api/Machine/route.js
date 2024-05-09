@@ -7,7 +7,7 @@ export async function GET(req, res) {
          query: "SELECT * FROM Machine",
          values: [],
       });
-      return NextResponse.json({ response: { message: "success", machines } });
+      return NextResponse.json({ response: machines });
    } catch (error) {
       return NextResponse.json({ response: { message: "error", error: error.message } });
    }

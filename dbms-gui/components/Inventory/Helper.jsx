@@ -46,9 +46,7 @@ const Helper = () => {
   return inventory ? (
     <Update inventory={inventory} />
   ) : (
-    <span className="text-xl text-red-600 w-full mx-auto">
-      No ID found! Refresh.
-    </span>
+    <span className="text-xl  w-full mx-auto">Loading</span>
   )
 }
 

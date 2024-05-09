@@ -1,6 +1,7 @@
 import Create from "@/components/Address/Create"
 import Delete from "@/components/Address/Delete"
 import Helper from "@/components/Address/Helper"
+import Read from "@/components/Address/Read"
 import {
    Tabs,
    TabsContent,
@@ -23,7 +24,7 @@ export default function Address() {
                <Create />
             </TabsContent>
             <TabsContent value="read">
-               Read
+               <Read />
             </TabsContent>
             <TabsContent value="update">
                <Helper />
