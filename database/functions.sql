@@ -1,10 +1,14 @@
-CREATE FUNCTION calculate_average(column_name VARCHAR(255), table_name VARCHAR(255))
-RETURNS DECIMAL(10, 2)
+-- Procedure to calculate total profit for a given month
+CREATE PROCEDURE calculate_total_profit (IN month_year DATE)
 BEGIN
-    DECLARE avg_value DECIMAL(10, 2);
-    SELECT AVG(column_name) INTO avg_value FROM table_name;
-    RETURN avg_value;
+    SELECT 
+        SUM(total_income) - SUM(total_expenses) AS total_profit
+    FROM Profit
+    WHERE month = month_year;
 END;
 
-SELECT calculate_average('total_income', 'Profit') AS average_income;
-
+-- Procedure to find the average salary of workers
+CREATE PROCEDURE calculate_average_salary ()
+BEGIN
+    SELECT AVG(amount) AS average_salary FROM Salary;
+END;
