@@ -25,8 +25,7 @@ BEGIN
     INSERT INTO Inventory (identifier, quantity, rate)
     SELECT 
         NEW.identifier,
-        SUM(NEW.quantity) AS total_quantity,
-        MAX(NEW.rate) * 1.4 AS rate
+        SUM(NEW.quantity) AS total_quantity,        
     FROM Produced
     WHERE identifier = NEW.identifier
     GROUP BY identifier
