@@ -81,7 +81,8 @@ Schedule:
       This is a type of Scheduling where the operations of multiple transactions are interleaved.
 
       Serializable:
-         It is mainly used in the Non-Serial scheduling to verify whether the scheduling will lead to any inconsistency or not.
+         A serializable schedule is a schedule (sequence of operations) for a set of transactions that produces the same results as some serial execution of those transactions.
+         In other words, even though the transactions might be interleaved, the end state of the database will be the same as if the transactions were executed one after the other without overlapping.
 
          a. Conflict Serializable
             A schedule is called conflict serializable if it can be transformed into a serial schedule by swapping non-conflicting operations.
