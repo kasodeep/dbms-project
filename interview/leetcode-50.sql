@@ -78,6 +78,11 @@ GROUP BY E.id
 HAVING COUNT(M.managerId) >= 5;
 
 -- 14
+SELECT s.user_id, 
+  ROUND(AVG(IF(c.action = 'confirmed', 1, 0)), 2) as confirmation_rate 
+FROM Signups s
+LEFT JOIN Confirmations c USING (user_id)
+GROUP BY s.user_id
 
 -- 15
 SELECT *
@@ -179,3 +184,77 @@ SELECT customer_id
 FROM Customer AS C
 GROUP BY customer_id
 HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM Product);
+
+-- 30
+SELECT
+    emp1.employee_id,
+    emp1.name,
+    COUNT(emp2.employee_id) AS reports_count,
+    ROUND(AVG(emp2.age)) AS average_age
+FROM Employees emp1
+INNER JOIN Employees emp2 ON emp1.employee_id = emp2.reports_to
+GROUP BY emp1.employee_id
+ORDER BY emp1.employee_id
+
+-- 31
+(SELECT employee_id, department_id FROM Employee
+GROUP BY employee_id HAVING COUNT(department_id) = 1)
+UNION 
+(SELECT employee_id, department_id FROM Employee
+WHERE primary_flag = 'Y');
+
+-- 32
+SELECT *, IF(x + y > z AND y + z > x AND z + x > y, "Yes", "No") AS triangle
+FROM Triangle
+
+-- 33
+Approach 1 -Using Joins
+SELECT DISTINCT l1.num AS ConsecutiveNums
+FROM Logs l1
+JOIN Logs l2 ON l1.id = l2.id - 1
+JOIN Logs l3 ON l1.id = l3.id - 2
+WHERE l1.num = l2.num AND l2.num = l3.num;
+
+-- 44
+SELECT user_id, 
+    CONCAT(UPPER(SUBSTRING(name, 1, 1)), LOWER(SUBSTRING(name, 2))) as name
+FROM Users
+ORDER BY user_id;
+
+-- 45
+SELECT patient_id, patient_name, conditions
+FROM Patients
+WHERE conditions LIKE "DIAB1%" OR conditions LIKE "% DIAB1%";
+
+-- 46
+DELETE p1 FROM Person p1, Person p2
+WHERE p1.Email = p2.Email AND p1.Id > p2.Id
+
+-- 47
+SELECT(
+    SELECT DISTINCT Salary 
+    FROM Employee
+    ORDER BY Salary DESC
+    LIMIT 1 OFFSET 1) 
+AS SecondHighestSalary;
+
+-- 48
+SELECT sell_date, 
+       COUNT(DISTINCT product) AS num_sold, 
+       GROUP_CONCAT(DISTINCT product) AS products
+FROM Activities
+GROUP BY sell_date
+ORDER BY sell_date;
+
+-- 49
+SELECT product_name, SUM(unit) AS unit
+FROM Products AS P
+JOIN Orders AS O ON P.product_id = O.product_id
+WHERE YEAR(order_date) = '2020' AND MONTH(order_date) = '02'
+GROUP BY P.product_id
+HAVING SUM(unit) >= 100;
+
+-- 50
+SELECT *
+FROM Users
+WHERE mail REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$';
