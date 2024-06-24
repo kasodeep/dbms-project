@@ -130,3 +130,52 @@ WHERE (customer_id, order_date) IN (
     FROM Delivery
     GROUP BY customer_id
 );
+
+-- 22
+
+-- 23
+SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt
+FROM Teacher
+GROUP BY 1;
+
+-- 24
+SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+FROM Activity
+WHERE activity_date BETWEEN DATE_SUB("2019-07-28", INTERVAL 30 DAY) AND "2019-07-27"
+GROUP BY 1;
+
+-- 25
+SELECT product_id, year AS first_year, quantity, price
+FROM Sales
+WHERE (product_id, year) IN (
+    SELECT product_id, MIN(year) 
+    FROM Sales
+    GROUP BY product_id
+)
+
+-- 26
+SELECT class
+FROM Courses
+GROUP BY class
+HAVING COUNT(student) >= 5;
+
+-- 27
+SELECT user_id, COUNT(follower_id) AS followers_count
+FROM Followers
+GROUP BY user_id
+ORDER BY user_id;
+
+-- 28
+SELECT MAX(num) AS num
+FROM (
+    SELECT num
+    FROM MyNumbers
+    GROUP BY num
+    HAVING COUNT(num) = 1
+) AS unique_numbers;
+
+-- 29
+SELECT customer_id
+FROM Customer AS C
+GROUP BY customer_id
+HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM Product);
