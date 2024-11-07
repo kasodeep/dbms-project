@@ -11,7 +11,7 @@ Need for DBMS:
    2.Data Security and Privacy
    3.Data Integrity and Consistency
    4.Concurrent Data Access
-   5.Data Analysis and Reporting=
+   5.Data Analysis and Reporting
    6.Scalability and Flexibility
    7.Cost-Effectiveness
 
