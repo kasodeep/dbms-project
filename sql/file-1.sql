@@ -1,0 +1,11 @@
+-- Create
+CREATE DATABASE myDB;
+
+-- Use
+USE myDB;
+
+-- DELETE
+DROP DATABASE myDB;
+
+-- Read Only
+ALTER DATABASE myDB READ ONLY = 1;
