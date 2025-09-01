@@ -38,3 +38,5 @@ FOR EACH ROW
 UPDATE expenses
 SET expense_total = expense_total + (NEW.salary - OLD.salary)
 WHERE expense_id = 1;
+
+EXPLAIN ANALZE (Query)
