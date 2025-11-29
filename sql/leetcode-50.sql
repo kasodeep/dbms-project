@@ -137,6 +137,15 @@ WHERE (customer_id, order_date) IN (
 );
 
 -- 22
+SELECT
+    id,
+    CASE
+        WHEN p_id IS NULL THEN 'Root'
+        WHEN id NOT IN (SELECT DISTINCT p_id FROM Tree WHERE p_id IS NOT NULL) 
+             THEN 'Leaf'
+        ELSE 'Inner'
+    END AS type
+FROM Tree;
 
 -- 23
 SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt

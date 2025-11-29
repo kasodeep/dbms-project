@@ -16,8 +16,7 @@ DROP TABLE employees;
 -- Altering the Table.
 ALTER TABLE employees ADD phone_number VARCHAR(15);
 
-ALTER TABLE employees
-RENAME COLUMN phone_number TO email;
+ALTER TABLE employees RENAME COLUMN phone_number TO email;
 
 ALTER TABLE employees MODIFY COLUMN email VARCHAR(100);
 
