@@ -133,3 +133,11 @@ The 3 main reasons to switch from file based to dbms are as follows:
 4. Cartesian Product:
 
    - Cartesian Product in DBMS is an operation used to merge columns from two relations. Generally, a cartesian product is never a meaningful operation when it performs alone.
+
+```io
+Server
+ └── Database
+       └── Schemas
+            └── Tables
+                └── Columns
+````
