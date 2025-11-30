@@ -267,3 +267,52 @@ HAVING SUM(unit) >= 100;
 SELECT *
 FROM Users
 WHERE mail REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$';
+
+-- Quest
+SELECT score,
+    DENSE_RANK() OVER (ORDER BY score DESC) AS 'rank'
+FROM Scores;
+
+SELECT DISTINCT num AS ConsecutiveNums
+FROM (
+    SELECT 
+        num,
+        CASE 
+            WHEN num = LAG(num, 1) OVER (ORDER BY id)
+             AND num = LAG(num, 2) OVER (ORDER BY id)
+            THEN 1
+        END AS is_three
+    FROM Logs
+) t
+WHERE is_three = 1;
+
+SELECT
+    t.request_at AS Day,
+    ROUND(
+        SUM(CASE WHEN t.status IN ('cancelled_by_driver', 'cancelled_by_client') THEN 1 ELSE 0 END)
+        /
+        COUNT(*),
+        2
+    ) AS 'Cancellation Rate'
+FROM Trips t
+JOIN Users c ON t.client_id = c.users_id AND c.banned = 'No'
+JOIN Users d ON t.driver_id = d.users_id AND d.banned = 'No'
+WHERE t.request_at BETWEEN '2013-10-01' AND '2013-10-03'
+GROUP BY t.request_at;
+
+SELECT 
+    ROUND(SUM(tiv_2016), 2) AS tiv_2016
+FROM Insurance
+WHERE 
+    tiv_2015 IN (
+        SELECT tiv_2015
+        FROM Insurance
+        GROUP BY tiv_2015
+        HAVING COUNT(*) > 1
+    )
+    AND (lat, lon) IN (
+        SELECT lat, lon
+        FROM Insurance
+        GROUP BY lat, lon
+        HAVING COUNT(*) = 1
+    );
